@@ -17,10 +17,10 @@ public class Purchase {
 
     public Purchase(){};
 
-    public Purchase(int id, int customerId, double cost, LocalDate date, String description) {
+    public Purchase(int id, double customer, double cost, LocalDate date, String description) {
 
         this.id = id;
-        this.customerId = customerId;
+        this.customer = customer;
         this.cost = cost;
         this.date = date;
         this.description = description;
@@ -29,8 +29,8 @@ public class Purchase {
     @Id
     private int id;
 
-    @Column(name="customer_id")
-    private int customerId;
+    //@Column(name="customer_id")
+    private double customer;
 
     private double cost;
 
@@ -47,12 +47,12 @@ public class Purchase {
         this.id = id;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public double getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomer(int customer) {
+        this.customer = customer;
     }
 
     public double getCost() {
