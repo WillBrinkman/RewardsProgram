@@ -12,24 +12,37 @@ class App extends Component {
     const response = await fetch("/api/purchases");
     const body = await response.json();
     this.setState({ purchases: body });
-    //let {newPurchases} = purchases.map(v => Object.assign(v, { cost: 0}))
-
-    // console.log(body);
-    console.log("compondntDidMount");
   }
+
 
   render() {
     const { purchases } = this.state;
-    let Purchases = purchases.map((purchase) =>
-      Object.assign(purchase, { points: pointsCalculator(purchase) })
+    let Purchases = purchases.map((obj) =>
+      Object.assign(obj, { points: pointsCalculator(obj) }),
     );
-    Purchases = groupBy(purchases, purchases.customerid);
-    //console.log(groupedPurchases);
 
+//Purchases = groupBy(Purchases, 'month');
+  //  Purchases = groupBy(purchases, 'customer');
+  Purchases = Purchases.map((obj) => ({ ...obj, month: obj.date.slice(5, 7) }))
+ 
+  //console.log(Purchases);
+  
+  //console.log(monthlyPurchases);
+
+    let customerPurchases = groupBy(Purchases, 'customer');
+  //  console.log(groupBy(purchases, 'customer'))
+    console.log(customerPurchases.forEach(this.state.points.sum()));
+    let monthlyPurchases = groupBy(Purchases, 'month');
+    console.log(monthlyPurchases);
+  //customerPurchases.map(groupBy(customerPurchases, 'date'.charAt(5) ))
+  //  let customerMonthlyPurchases = groupBy(customerPurchases, 'date'.slice(5,7) )
+  //  console.log(customerPurchases);
+
+  
     function pointsCalculator(purchase) {
       let roundedPurchaseCost = Math.floor(purchase.cost);
       let purchasePoints = 0;
-
+  
       if (roundedPurchaseCost > 50) {
         purchasePoints =
           roundedPurchaseCost - 100 > 0
@@ -39,7 +52,7 @@ class App extends Component {
       }
       return purchasePoints;
     }
-
+  
     function groupBy(Arr, property) {
       return Arr.reduce((newArr, obj) => {
         const key = obj[property];
@@ -48,20 +61,23 @@ class App extends Component {
         }
         newArr[key].push(obj);
         return newArr;
-      }, {});
+      }, []);
     }
 
-    // let Purchases = purchases.map( purchase => pointsCalculator(purchase))
+    function groupByMonth(Arr, property) {
+      return Arr.reduce((newArr, obj) => {
+        const key = obj[property];
+        if (!newArr[key]) {
+          newArr[key] = [];
+        }
+        newArr[key].push(obj);
+        return newArr;
+      }, []);
+    }
 
-    //Purchases.forEach(purchase => {v.points = pointsCalculator(purchase);}) ???
-
-    //   let cost = (Math.floor(purchase.cost))
-    //   if ((Math.floor(purchase.cost)) > 50){
-    //     purchase.points = cost - 100 > 0 ? 50 + (cost-100)*2 :  cost - 50
-    // }
-    //
-
+      
     let rows = Purchases.map((purchase) => (
+        
       <tr key={purchase.id}>
         <td>{purchase.customer}</td>
         <td>${purchase.cost}</td>
