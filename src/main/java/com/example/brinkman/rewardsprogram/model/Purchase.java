@@ -79,8 +79,6 @@ public class Purchase {
         this.description = description;
     }
 
-
-
-   // private Long points;
+   // private Double points;
 
 }

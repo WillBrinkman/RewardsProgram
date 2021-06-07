@@ -6,10 +6,6 @@ import com.example.brinkman.rewardsprogram.repository.PurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-//import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -24,10 +20,5 @@ public class PurchaseController {
 
         return purchaseRepository.findAll();
     }
-//
-//    @PostMapping("/")
-//    ResponseEntity<Purchase> createPurchase(@RequestBody Purchase purchase) throws URISyntaxException {
-//        Purchase result= purchaseRepository.save(purchase);
-//        return ResponseEntity.created(new URI("/api/expenses" + result.getId())).body(result);
-//    }
+
 }
